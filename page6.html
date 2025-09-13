@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Ahaana — Page6 (Songs)</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Sacramento&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:system-ui,-apple-system,Segoe UI,Roboto;
+    background:linear-gradient(180deg,#ffe0e5,#ffdce0);
+    color:#b54b4b;
+    padding:20px;
+    min-height:100vh;
+  }
+  #corner{position:fixed;left:15px;top:10px;font-family:'Sacramento',cursive;font-size:1.6rem;z-index:40;color:#b54b4b}
+  #backBtn{position:fixed;right:15px;top:10px;background:#fff;padding:8px 14px;border-radius:12px;border:none;cursor:pointer;z-index:40;color:#b54b4b;font-weight:700;box-shadow:0 6px 18px rgba(0,0,0,0.12)}
+  
+  .song-grid{max-width:900px;margin:80px auto 40px;display:flex;flex-direction:column;gap:16px;padding:0 12px}
+  .song-box{background:#fff0f5;border-radius:14px;padding:16px;text-align:center;box-shadow:0 6px 18px rgba(0,0,0,0.08)}
+  .song-name{font-weight:700;margin-bottom:8px;font-size:1.1rem}
+  .song-link-box{background:#ffdce0;border-radius:10px;padding:6px 10px;display:inline-block;font-weight:700;color:#b54b4b;cursor:pointer;transition:0.3s}
+  .song-link-box:hover{background:#ffe0e5}
+  
+  #popup{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.45);z-index:1100}
+  .popup-box{background:#fff0f5;color:#b54b4b;padding:22px 28px;border-radius:14px;font-weight:700;font-size:1.2rem;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,0.15)}
+  .popup-heart{display:block;margin-top:10px;font-size:24px;color:#ff1e73;animation:rot 1s linear infinite}
+  @keyframes rot{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+
+<div id="corner">#delulu♥</div>
+<button id="backBtn">Back</button>
+
+<main class="song-grid" id="grid">
+  <div class="song-box">
+    <div class="song-name">Fallin Apart</div>
+    <div class="song-link-box" onclick="window.open('https://open.spotify.com/track/1bpzDsnW35B4QSRWXmatcc?si=wu-N0uU9TDC-cKi7LMcn5A','_blank')">Spotify</div>
+  </div>
+  <div class="song-box">
+    <div class="song-name">Punjaban</div>
+    <div class="song-link-box" onclick="window.open('https://open.spotify.com/track/1IP2G9KlWwT9xw1OlGf6Pd?si=pvbSf8v5Q22MB0qgrsYZmQ','_blank')">Spotify</div>
+  </div>
+  <div class="song-box">
+    <div class="song-name">Boyfriend</div>
+    <div class="song-link-box" onclick="window.open('https://open.spotify.com/track/3ExgWVPWOQts9RVBkqpdic?si=Lqs9r9eiSQKhmLzd73DhXA','_blank')">Spotify</div>
+  </div>
+  <div class="song-box">
+    <div class="song-name">For a Reason</div>
+    <div class="song-link-box" onclick="window.open('https://open.spotify.com/track/0cYohCh24y1aMjJmcS9RBl?si=pbTzL-zaRJ2bpy0H0eaVUg','_blank')">Spotify</div>
+  </div>
+  <div class="song-box">
+    <div class="song-name">Ehsaas</div>
+    <div class="song-link-box" onclick="window.open('https://open.spotify.com/track/5PetOhEX9N0oyBB0Keqobv?si=O7-BkxxBT7eGhSx2Fe6rJQ','_blank')">Spotify</div>
+  </div>
+  <div class="song-box">
+    <div class="song-name">Suit</div>
+    <div class="song-link-box" onclick="window.open('https://open.spotify.com/track/7s7sQhUGemWHuqiWBB28ww?si=FGLBazpvTQij8XVYhd0LWw','_blank')">Spotify</div>
+  </div>
+  <div class="song-box">
+    <div class="song-name">Dil Dardeh</div>
+    <div class="song-link-box" onclick="window.open('https://open.spotify.com/track/0ku4NlnENAuhWyYnKfI4DA?si=AUHM6Pc1QGqWvh_5IqSYdg','_blank')">Spotify</div>
+  </div>
+  <div class="song-box">
+    <div class="song-name">Ki Samjiye</div>
+    <div class="song-link-box" onclick="window.open('https://open.spotify.com/track/6IVkWuiOVvvckJ1ec4l9Aq?si=z8gZLiuQRZ2YuYVWhsetkA','_blank')">Spotify</div>
+  </div>
+  <div class="song-box">
+    <div class="song-name">Main Nachdi</div>
+    <div class="song-link-box" onclick="window.open('https://open.spotify.com/track/3N27YM8db8rF7a8tXU0TyN?si=jEIKxds3Q0ahmSpLMius4g','_blank')">Spotify</div>
+  </div>
+  <div class="song-box">
+    <div class="song-name">Alvida</div>
+    <div class="song-link-box" onclick="window.open('https://open.spotify.com/track/0MzimbGlnX7GS2lRuD5eTT?si=i_8DdQ0dTqOgEq4ic6_wHQ','_blank')">Spotify</div>
+  </div>
+  <div class="song-box">
+    <div class="song-name">Simroon Tera Naam</div>
+    <div class="song-link-box" onclick="window.open('https://open.spotify.com/track/30Aof6iEIZDwYukcB98AOc?si=4zk1uvsDQLex4FfXRacweA','_blank')">Spotify</div>
+  </div>
+  <div class="song-box">
+    <div class="song-name">Khamoshiyan</div>
+    <div class="song-link-box" onclick="window.open('https://open.spotify.com/album/6mJIpY6r2SzZbLN3ClYCbb?si=FmavQGG9SliA0q8tx1opYg','_blank')">Spotify</div>
+  </div>
+  <div class="song-box">
+    <div class="song-name">Soch Na Sake</div>
+    <div class="song-link-box" onclick="window.open('https://open.spotify.com/track/6mTvwBzWTGDOVeCNQEqtOE?si=cU_XFHFXS9uATyFOrXyqIg','_blank')">Spotify</div>
+  </div>
+  <div class="song-box">
+    <div class="song-name">Kya Karien</div>
+    <div class="song-link-box" onclick="window.open('https://open.spotify.com/track/7qZClRjuyBwaKQsU0LxX5y?si=igq5b0mVTrGCHW8ViW8Ogw','_blank')">Spotify</div>
+  </div>
+  <div class="song-box">
+    <div class="song-name">Tohre Me Base Raja</div>
+    <div class="song-link-box" onclick="window.open('https://open.spotify.com/track/0nIRAyJKYbRgXiYNZdwYQo?si=ELtWz4ITT7u3miODLcysuA','_blank')">Spotify</div>
+  </div>
+  <div class="song-box">
+    <div class="song-name">Solid Body</div>
+    <div class="song-link-box" onclick="window.open('https://open.spotify.com/track/7ptpinHPjfIB8Tbt7Hvfrf?si=rLkAvSayTTe1RGpAUOe9KA','_blank')">Spotify</div>
+  </div>
+  <div class="song-box">
+    <div class="song-name">Battua</div>
+    <div class="song-link-box" onclick="window.open('https://open.spotify.com/track/4zT9tZWbV5OVvcD7JQqGTu?si=-awVpNQxTUW40EI6GzWfSA','_blank')">Spotify</div>
+  </div>
+  <div class="song-box">
+    <div class="song-name">Chite Suite Tw</div>
+    <div class="song-link-box" onclick="window.open('https://open.spotify.com/track/3KWHt8nq3tetgr9fw2fuln?si=YJwvFX42QeuitgBzDTpWsQ','_blank')">Spotify</div>
+  </div>
+  <div class="song-box">
+    <div class="song-name">Lehnga</div>
+    <div class="song-link-box" onclick="window.open('https://open.spotify.com/track/6U8g1gIPeHXLTCZ7U6wxbQ?si=zlV9aY7cT7S57Rpis39Glg','_blank')">Spotify</div>
+  </div>
+  <div class="song-box">
+    <div class="song-name">Bhabi Meri Hoor Waregi</div>
+    <div class="song-link-box" onclick="window.open('https://open.spotify.com/track/7upfOeT4noInzk2ip39beH?si=ihcg1X6YQTqAku0mtPBpZw','_blank')">Spotify</div>
+  </div>
+  <div class="song-box">
+    <div class="song-name">Zaroor</div>
+    <div class="song-link-box" onclick="window.open('https://open.spotify.com/album/62yJN1YiKoDvXSrSdiXC13?si=YNblD_F0RJijtQ6t5HAGVQ','_blank')">Spotify</div>
+  </div>
+</main>
+
+<div id="popup" aria-hidden="true">
+  <div class="popup-box">Ruko betuu🥹<span class="popup-heart">❤</span></div>
+</div>
+
+<script>
+(function(){
+  const backBtn = document.getElementById('backBtn');
+  const popup = document.getElementById('popup');
+
+  backBtn.addEventListener('click', ()=>{
+    popup.style.display = 'flex';
+    setTimeout(()=> {
+      popup.style.display = 'none';
+      window.location.href = "page2.html"; // wapas page2 pe
+    }, 2000);
+  });
+})();
+</script>
+
+</body>
+</html>

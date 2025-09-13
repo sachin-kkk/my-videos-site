@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gallery Page</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sacramento&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  min-height:100vh;
+  width:100%;
+  background:linear-gradient(180deg,#ffe0e5,#ffdce0);
+  font-family:sans-serif;
+  position:relative;
+  padding:20px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+
+/* Permanent corner */
+#corner{
+  position:absolute;
+  top:10px;
+  left:15px;
+  font-family:'Sacramento',cursive;
+  font-size:1.8rem;
+  color:#b54b4b;
+  z-index:5;
+}
+
+/* Back button */
+#backBtn{
+  position:absolute;
+  top:10px;
+  right:15px;
+  padding:8px 15px;
+  background:#ffd6e1;
+  border:none;
+  border-radius:12px;
+  font-weight:bold;
+  color:#b54b4b;
+  cursor:pointer;
+  box-shadow:0 4px 10px rgba(0,0,0,0.1);
+  transition:transform 0.2s ease, background 0.2s ease;
+}
+#backBtn:hover{
+  transform:scale(1.05);
+  background:#ffb6c1;
+}
+
+/* Gallery container */
+.gallery{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:20px;
+  margin-top:60px;
+}
+.gallery img{
+  width:180px;
+  border-radius:10px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.1);
+  transition:transform 0.3s ease;
+  cursor:pointer;
+}
+.gallery img:hover{ transform:scale(1.05); }
+
+/* Zoom overlay */
+#zoomOverlay{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100vw;
+  height:100vh;
+  background:rgba(0,0,0,0.7);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  visibility:hidden;
+  opacity:0;
+  transition:opacity 0.3s ease;
+  z-index:999;
+}
+#zoomOverlay img{
+  max-width:80%;
+  max-height:80%;
+  border-radius:15px;
+  box-shadow:0 8px 20px rgba(0,0,0,0.3);
+  transition:transform 0.3s ease;
+}
+#zoomOverlay.show{ visibility:visible; opacity:1; }
+
+/* Personal fav */
+.personal-fav{
+  margin-top:40px;
+  text-align:center;
+}
+.personal-fav h2{
+  font-size:1.6rem;
+  color:#b54b4b;
+  margin-bottom:15px;
+}
+.personal-fav img{
+  width:180px;
+  border-radius:10px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.1);
+  transition:transform 0.3s ease;
+  cursor:pointer;
+}
+
+/* Back overlay with rotating heart */
+#backOverlay{
+  position:fixed;
+  top:0; left:0;
+  width:100vw; height:100vh;
+  background:rgba(0,0,0,0.5);
+  backdrop-filter:blur(5px);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  visibility:hidden;
+  opacity:0;
+  transition:opacity 0.3s ease;
+  z-index:1000;
+}
+#backOverlay.show{ visibility:visible; opacity:1; }
+
+#backMsg{
+  background:#fff0f5;
+  padding:20px 30px;
+  border-radius:15px;
+  font-size:1.4rem;
+  color:#b54b4b;
+  font-weight:bold;
+  box-shadow:0 4px 15px rgba(0,0,0,0.2);
+  margin-bottom:15px;
+  text-align:center;
+}
+
+/* Rotating heart */
+#rotatingHeart{
+  font-size:2rem;
+  color:#ff1e73;
+  animation:rotateHeart 1s linear infinite;
+}
+@keyframes rotateHeart{
+  0%{transform:rotate(0deg);}
+  100%{transform:rotate(360deg);}
+}
+</style>
+</head>
+<body>
+<div id="corner">#delulu♥</div>
+<button id="backBtn">Back</button>
+
+<div class="gallery">
+  <img src="https://i.ibb.co/jZxfLmsy/Snapchat-84902264.jpg" alt="Photo1">
+  <img src="https://i.ibb.co/9kMff7XW/Snapchat-890723903.jpg" alt="Photo2">
+  <img src="https://i.ibb.co/Txfbvy7n/Snapchat-98223570.jpg" alt="Photo3">
+  <img src="https://i.ibb.co/ccbbbfks/Snapchat-1878488440.jpg" alt="Photo4">
+  <img src="https://i.ibb.co/pvvVmgVr/IMG-20250821-201408.jpg" alt="Photo5">
+  <img src="https://i.ibb.co/7ddpG3Yb/IMG-20250821-201324.jpg" alt="Photo6">
+  <img src="https://i.ibb.co/nMbRPgbk/Snapchat-1892087063.jpg" alt="Photo7">
+  <img src="https://i.ibb.co/27f79X0m/Snapchat-1382642781.jpg" alt="Photo8">
+  <img src="https://i.ibb.co/4wgz6H6R/Snapchat-148489213.jpg" alt="Photo9">
+  <img src="https://i.ibb.co/p6nsZP0f/IMG-20250819-130532-321.jpg" alt="Photo10">
+  <img src="https://i.ibb.co/yGkKwQ8/IMG-20250710-190750-533.jpg" alt="IMG-20250710-190750-533">
+  <img src="https://i.ibb.co/T61kw9F/IMG-20250709-WA0004.jpg" alt="IMG-20250709-WA0004">
+  <img src="https://i.ibb.co/tS3HrD7/IMG-20250706-154435-804.jpg" alt="IMG-20250706-154435-804">
+  <img src="https://i.ibb.co/Kx975XRR/IMG-20250629-015934-047.jpg" alt="IMG-20250629-015934-047">
+  <img src="https://i.ibb.co/YTBZXMNb/Snapchat-376813979.jpg" alt="Snapchat-376813979">
+  <img src="https://i.ibb.co/4RZMfFhX/IMG-20250819-130336-034.jpg" alt="IMG-20250819-130336-034">
+  <img src="https://i.ibb.co/chm6q42j/IMG-20250819-130210-656.jpg" alt="IMG-20250819-130210-656">
+  <img src="https://i.ibb.co/q3wct59q/Snapchat-240461554.jpg" alt="Snapchat-240461554">
+  <img src="https://i.ibb.co/1fJj0mHV/Screenshot-20250722-093624.jpg" alt="Screenshot-20250722-093624">
+  <img src="https://i.ibb.co/k2csztz9/Snapchat-1006451754.jpg" alt="Snapchat-1006451754">
+</div>
+
+<div class="personal-fav">
+  <h2>Personal fav🐣❤️</h2>
+  <img src="https://i.ibb.co/Y4W5Qc0s/e3bf144a-3e1c-4f15-8672-c4b063cda791.png" alt="PersonalFav">
+</div>
+
+<!-- Zoom overlay -->
+<div id="zoomOverlay" onclick="this.classList.remove('show')">
+  <img src="" alt="Zoomed">
+</div>
+
+<!-- Back overlay -->
+<div id="backOverlay">
+  <div id="backMsg">Ruko betuu🥹</div>
+  <div id="rotatingHeart">❤</div>
+</div>
+
+<script>
+/* Image Zoom */
+const galleryImgs = document.querySelectorAll('.gallery img, .personal-fav img');
+const zoomOverlay = document.getElementById('zoomOverlay');
+const zoomImg = zoomOverlay.querySelector('img');
+
+galleryImgs.forEach(img => {
+  img.addEventListener('click', ()=>{
+    zoomImg.src = img.src;
+    zoomOverlay.classList.add('show');
+  });
+});
+
+/* Back button with blur + rotating heart */
+const backBtn = document.getElementById('backBtn');
+const backOverlay = document.getElementById('backOverlay');
+
+backBtn.addEventListener('click', ()=>{
+  backOverlay.classList.add('show'); // show overlay
+  setTimeout(()=>{
+    window.location.href='page2.html';
+  },2000); // 2 sec delay
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Page7 — Videos & Secret</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Sacramento&display=swap');
+  :root{
+    --bg1:#ffe0e5;
+    --bg2:#ffdce0;
+    --accent:#b54b4b;
+    --heart-pink:#ff4d88;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family:system-ui,-apple-system,Segoe UI,Roboto;
+    background:linear-gradient(180deg,var(--bg1),var(--bg2));
+    color:var(--accent);
+    padding:20px;
+    min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* permanent items */
+  #corner{
+    position:fixed; left:15px; top:10px;
+    font-family:'Sacramento',cursive; font-size:1.6rem;
+    z-index:1200; color:var(--accent); user-select:none;
+  }
+  #backBtn{
+    position:fixed; right:15px; top:10px;
+    background:#fff; color:var(--accent);
+    border:none; padding:8px 14px; border-radius:12px;
+    box-shadow:0 6px 18px rgba(0,0,0,0.12);
+    cursor:pointer; font-weight:700; z-index:1200;
+  }
+
+  /* videos grid (2-per-row) */
+  .grid{
+    max-width:980px;
+    margin:70px auto 120px;
+    display:grid;
+    gap:16px;
+    grid-template-columns:repeat(2,1fr);
+    padding:0 12px;
+  }
+  @media(max-width:700px){ .grid{grid-template-columns:1fr} }
+  .video-card{
+    position:relative; border-radius:14px; overflow:hidden; background:#000;
+    cursor:pointer; box-shadow:0 8px 24px rgba(0,0,0,0.08);
+  }
+  .video-card iframe, .video-card .thumb-embed {
+    width:100%; height:100%; display:block; border:0;
+  }
+  .video-card .thumb-embed{ aspect-ratio:16/9; object-fit:cover; }
+
+  /* overlay player */
+  #overlay{
+    position:fixed; inset:0; background:rgba(0,0,0,0.85);
+    display:none; align-items:center; justify-content:center; padding:20px; z-index:2000;
+  }
+  .player-wrap{ width:100%; max-width:900px; aspect-ratio:16/9; background:#000; border-radius:12px; overflow:hidden; box-shadow:0 20px 50px rgba(0,0,0,0.6) }
+  .player-wrap iframe{ width:100%; height:100%; border:0; display:block }
+
+  /* popup back box */
+  #popup{
+    position:fixed; inset:0; display:none; align-items:center; justify-content:center;
+    background:rgba(0,0,0,0.45); z-index:2100;
+  }
+  .popup-box{
+    background:#fff0f5; color:var(--accent); padding:22px 28px; border-radius:14px;
+    font-weight:700; font-size:1.1rem; text-align:center; box-shadow:0 10px 30px rgba(0,0,0,0.15);
+  }
+  .popup-heart{ display:block; margin-top:10px; font-size:24px; color:var(--heart-pink); animation:rot 1s linear infinite }
+  @keyframes rot{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+
+  /* secret button */
+  #secretBtn{
+    position:fixed; left:15px; bottom:18px;
+    background:#fff0f5; color:var(--accent); font-weight:700;
+    padding:10px 14px; border-radius:12px; box-shadow:0 6px 18px rgba(0,0,0,0.08);
+    cursor:pointer; z-index:1200;
+  }
+
+  /* PIN overlay (phone style) */
+  #pinOverlay{
+    position:fixed; inset:0; display:flex; align-items:center; justify-content:center;
+    background:rgba(0,0,0,0.25); z-index:2200; opacity:0; pointer-events:none; transition:opacity .18s ease;
+  }
+  #pinOverlay.show{opacity:1; pointer-events:auto}
+  #pinCard{
+    width:320px; max-width:94%; background:#fff; border-radius:16px; padding:18px; text-align:center;
+    box-shadow:0 12px 40px rgba(0,0,0,0.15); color:var(--accent);
+  }
+  #pinTitle{font-weight:800;margin-bottom:10px}
+  #pinDots{display:flex;gap:10px;justify-content:center;margin-bottom:12px}
+  .dot{width:46px;height:56px;border-radius:10px;border:2px solid var(--accent);line-height:56px;font-size:22px;background:#fff}
+
+  .keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .key{background:#ffeef2;border-radius:12px;padding:12px 0;font-weight:800;color:var(--accent);cursor:pointer;user-select:none}
+  .key.del{background:#fff2f2}
+  .key.ok{background:var(--heart-pink); color:#fff}
+
+  /* wrong flash */
+  #wrongFlash{
+    position:fixed; inset:0; display:flex; align-items:center; justify-content:center;
+    background:rgba(0,0,0,0.35); z-index:2300; opacity:0; pointer-events:none; transition:opacity .08s ease;
+  }
+  #wrongFlash.show{opacity:1; pointer-events:auto}
+  .bigBreak{font-size:90px; color:var(--heart-pink); filter:drop-shadow(0 6px 20px rgba(0,0,0,0.2))}
+
+  /* message overlay on correct pin */
+  #messageOverlay{
+    position:fixed; inset:0; display:flex; align-items:center; justify-content:center;
+    background:rgba(255,220,225,0.7); z-index:2400; opacity:0; pointer-events:none; transition:opacity .18s ease; backdrop-filter: blur(6px);
+  }
+  #messageOverlay.show{opacity:1; pointer-events:auto}
+  .messageBox{ max-width:880px; background:#fff; padding:20px; border-radius:12px; color:var(--accent); box-shadow:0 12px 40px rgba(0,0,0,0.12); font-weight:600; line-height:1.35; text-align:left; }
+
+  /* floating hearts spawned on success */
+  .float-heart{ position:fixed; font-size:18px; pointer-events:none; z-index:2500; animation:floatFade linear forwards; }
+  @keyframes floatFade{ 0%{transform:translateY(0) scale(1); opacity:1} 100%{transform:translateY(-160px) scale(0.6); opacity:0} }
+
+  /* blurred helper */
+  .blurred{ filter:blur(6px); pointer-events:none; user-select:none; }
+ /* Pink circle with white play icon in center */
+.video-card::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70px;              /* circle size */
+  height: 70px;
+  border-radius: 50%;       /* circle */
+  background: #ff4d88;      /* pink fill */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+.video-card::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-40%, -50%); /* little shift to look like play icon */
+  width: 0;
+  height: 0;
+  border-left: 18px solid #fff;     /* white triangle */
+  border-top: 12px solid transparent;
+  border-bottom: 12px solid transparent;
+  z-index: 2;
+}
+.video-card:hover::after {
+  filter: brightness(1.1);
+}
+</style>
+</head>
+<body>
+
+  <div id="corner">#delulu♥</div>
+  <button id="backBtn">Back</button>
+
+  <main class="grid" id="content">
+    <!-- Videos (kept as cards but clicking opens overlay player) -->
+   <div class="video-card" data-url="https://youtube.com/shorts/mWe799ZOhcE?feature=share">
+      <img class="thumb-embed" src="https://i.ytimg.com/vi/mWe799ZOhcE/hqdefault.jpg" alt="">
+    </div>
+    <div class="video-card" data-url="https://youtube.com/shorts/n7tlqMCvhts?feature=share">
+      <img class="thumb-embed" src="https://i.ytimg.com/vi/n7tlqMCvhts/hqdefault.jpg" alt="">
+    </div>
+
+    <div class="video-card" data-url="https://youtube.com/shorts/YbHJZ-RsiDc?feature=share">
+      <img class="thumb-embed" src="https://i.ytimg.com/vi/YbHJZ-RsiDc/hqdefault.jpg" alt="">
+    </div>
+    <div class="video-card" data-url="https://youtube.com/shorts/nFVGWbAgCa4?feature=share">
+      <img class="thumb-embed" src="https://i.ytimg.com/vi/nFVGWbAgCa4/hqdefault.jpg" alt="">
+    </div>
+
+    <div class="video-card" data-url="https://youtube.com/shorts/SflQF6rIzok?feature=share">
+      <img class="thumb-embed" src="https://i.ytimg.com/vi/SflQF6rIzok/hqdefault.jpg" alt="">
+    </div>
+    <div class="video-card" data-url="https://youtube.com/shorts/cZoiRLsXKb4?feature=share">
+      <img class="thumb-embed" src="https://i.ytimg.com/vi/cZoiRLsXKb4/hqdefault.jpg" alt="">
+    </div>
+
+    <div class="video-card" data-url="https://youtube.com/shorts/yfLV8XWuGT8?feature=share">
+      <img class="thumb-embed" src="https://i.ytimg.com/vi/yfLV8XWuGT8/hqdefault.jpg" alt="">
+    </div>
+    <div class="video-card" data-url="https://youtube.com/shorts/gEKz6ZlP7iE?feature=share">
+      <img class="thumb-embed" src="https://i.ytimg.com/vi/gEKz6ZlP7iE/hqdefault.jpg" alt="">
+    </div>
+
+    <div class="video-card" data-url="https://youtube.com/shorts/qIolZUR9qac?feature=share">
+      <img class="thumb-embed" src="https://i.ytimg.com/vi/qIolZUR9qac/hqdefault.jpg" alt="">
+    </div>
+    <div class="video-card" data-url="https://youtube.com/shorts/nbwne4ctCBs?feature=share">
+      <img class="thumb-embed" src="https://i.ytimg.com/vi/nbwne4ctCBs/hqdefault.jpg" alt="">
+    </div>
+
+    <div class="video-card" data-url="https://youtube.com/shorts/VPNuQBZBaos?feature=share">
+      <img class="thumb-embed" src="https://i.ytimg.com/vi/VPNuQBZBaos/hqdefault.jpg" alt="">
+    </div>
+    <div class="video-card" data-url="https://youtube.com/shorts/OU8lW34FtV8?feature=share">
+      <img class="thumb-embed" src="https://i.ytimg.com/vi/OU8lW34FtV8/hqdefault.jpg" alt="">
+    </div>
+
+    <div class="video-card" data-url="https://youtube.com/shorts/cGhhGTY8F_M?feature=share">
+      <img class="thumb-embed" src="https://i.ytimg.com/vi/cGhhGTY8F_M/hqdefault.jpg" alt="">
+    </div>
+    <div class="video-card" data-url="https://youtube.com/shorts/6oXCfT4bID4?feature=share">
+      <img class="thumb-embed" src="https://i.ytimg.com/vi/6oXCfT4bID4/hqdefault.jpg" alt="">
+    </div>
+
+    <div class="video-card" data-url="https://youtube.com/shorts/qw8V7XiXZuE?feature=share">
+      <img class="thumb-embed" src="https://i.ytimg.com/vi/qw8V7XiXZuE/hqdefault.jpg" alt="">
+    </div>
+    <div class="video-card" data-url="https://youtube.com/shorts/BpcDCE7aef4?feature=share">
+      <img class="thumb-embed" src="https://i.ytimg.com/vi/BpcDCE7aef4/hqdefault.jpg" alt="">
+    </div>
+
+    <div class="video-card" data-url="https://youtube.com/shorts/-hLqhWNydrs?feature=share">
+      <img class="thumb-embed" src="https://i.ytimg.com/vi/-hLqhWNydrs/hqdefault.jpg" alt="">
+    </div>
+  </main>
+
+  <!-- overlay player -->
+  <div id="overlay" aria-hidden="true">
+    <div class="player-wrap" id="playerWrap"></div>
+  </div>
+
+  <!-- back popup -->
+  <div id="popup" aria-hidden="true">
+    <div class="popup-box">Ruko betuu🥹<span class="popup-heart">❤</span></div>
+  </div>
+
+  <!-- secret button -->
+  <button id="secretBtn">it's good if it's left unseen</button>
+
+  <!-- PIN overlay -->
+  <div id="pinOverlay" aria-hidden="true">
+    <div id="pinCard" role="dialog" aria-modal="true">
+      <div id="pinTitle" style="font-weight:800;margin-bottom:8px">Enter 4-digit PIN</div>
+      <div id="pinDots" aria-hidden="true">
+        <div class="dot" data-index="0"></div>
+        <div class="dot" data-index="1"></div>
+        <div class="dot" data-index="2"></div>
+        <div class="dot" data-index="3"></div>
+      </div>
+
+      <div class="keypad" id="keypad" style="margin-top:8px">
+        <div class="key">1</div><div class="key">2</div><div class="key">3</div>
+        <div class="key">4</div><div class="key">5</div><div class="key">6</div>
+        <div class="key">7</div><div class="key">8</div><div class="key">9</div>
+        <div class="key del">⌫</div><div class="key">0</div><div class="key ok">✓</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- wrong flash -->
+  <div id="wrongFlash" aria-hidden="true"><div class="bigBreak">💔</div></div>
+
+  <!-- message overlay on success -->
+  <div id="messageOverlay" aria-hidden="true">
+    <div class="messageBox" id="messageBox">
+      Aap kyuu hogyi itna dur hmko apna bana kr 🙂. Apko suru se hi pata tha hum kaisa feel kr rhe the.. , kehna tw ni chahiye but wo cigarette pine wali ahaana hi jada achi lgti thi hmko 🙃 kyuki uss samay aap thodi sahi but meri thii..🌷 Agar kabhi mauka mile past me jane ka tw hum hamesha ke liye June 2025 me hi stuck hona chahenge..🙂 cause wo samay mera sbse happiest moment thaa 🙂🌷. First time being special, being loved feel kr rhe thee.. I maybe just a topic of an chapter for uu but for me you are not just a book, uu are my whole subject 🙃🌹
+      <br><br>I still miss our late night conversations. I still cry thinking about uu. I miss old uu ahaanuu🤍.
+      <div style="margin-top:12px; font-size:0.9rem; font-weight:700; color:var(--heart-pink)">(Tap anywhere to close)</div>
+    </div>
+  </div>
+
+<script>
+(function(){
+  const overlay = document.getElementById('overlay');
+  const playerWrap = document.getElementById('playerWrap');
+  const videoCards = document.querySelectorAll('.video-card');
+  const backBtn = document.getElementById('backBtn');
+  const popup = document.getElementById('popup');
+  const secretBtn = document.getElementById('secretBtn');
+  const pinOverlay = document.getElementById('pinOverlay');
+  const keypad = document.getElementById('keypad');
+  const dots = Array.from(document.querySelectorAll('.dot'));
+  const WRONG = document.getElementById('wrongFlash');
+  const messageOverlay = document.getElementById('messageOverlay');
+  const content = document.getElementById('content');
+  const CORRECT_PIN = '2008';
+  let entered = '';
+
+  /* Utility: extract youtube id from shorts or watch?v= */
+  function extractYouTubeID(url){
+    try{
+      if(!url) return null;
+      if(url.includes('shorts/')) return url.split('shorts/')[1].split('?')[0];
+      if(url.includes('v=')) return url.split('v=')[1].split('&')[0];
+      // fallback: last path segment
+      const parts = url.split('/');
+      return parts[parts.length-1].split('?')[0];
+    }catch(e){return null}
+  }
+
+  function ytEmbedUrlFromShort(url){
+    const id = extractYouTubeID(url);
+    if(!id) return null;
+    return 'https://www.youtube.com/embed/' + encodeURIComponent(id) + '?autoplay=1&mute=0&rel=0&modestbranding=1';
+  }
+
+  /* open overlay player with iframe (attempt to play with sound) */
+  function openPlayer(url){
+    const src = ytEmbedUrlFromShort(url);
+    if(!src) return;
+    const ifr = document.createElement('iframe');
+    ifr.src = src;
+    ifr.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+    ifr.allowFullscreen = true;
+    playerWrap.innerHTML = '';
+    playerWrap.appendChild(ifr);
+    overlay.style.display = 'flex';
+    overlay.setAttribute('aria-hidden','false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closePlayer(){
+    overlay.style.display = 'none';
+    overlay.setAttribute('aria-hidden','true');
+    playerWrap.innerHTML = '';
+    document.body.style.overflow = '';
+  }
+
+  /* attach click to cards: open overlay */
+  videoCards.forEach(card=>{
+    card.addEventListener('click', ()=> openPlayer(card.dataset.url) );
+  });
+
+  overlay.addEventListener('click', (e)=>{
+    if(e.target === overlay) closePlayer();
+  });
+
+  document.addEventListener('keydown', (e)=>{
+    if(e.key === 'Escape' && overlay.style.display === 'flex') closePlayer();
+  });
+
+  /* back button: popup then redirect to page2.html after 2s, blur content while showing */
+  backBtn.addEventListener('click', ()=>{
+    content.classList.add('blurred');
+    popup.style.display = 'flex';
+    setTimeout(()=>{
+      popup.style.display = 'none';
+      content.classList.remove('blurred');
+      window.location.href = 'page2.html';
+    }, 2000);
+  });
+
+  /* SECRET: open PIN overlay */
+  secretBtn.addEventListener('click', ()=>{
+    entered = '';
+    updateDots();
+    pinOverlay.classList.add('show');
+  });
+
+  /* keypad handling */
+  keypad.addEventListener('click', (e)=>{
+    const k = e.target;
+    if(!k.classList.contains('key')) return;
+    const v = k.textContent.trim();
+    if(v === '⌫'){
+      entered = entered.slice(0,-1);
+      updateDots();
+      return;
+    }
+    if(v === '✓'){
+      if(entered.length !== 4) return;
+      pinOverlay.classList.remove('show');
+      if(entered === CORRECT_PIN){
+        // success: blur content, show message overlay, spawn colorful hearts for 2s, then keep message visible until tap
+        content.classList.add('blurred');
+        showMessageAndHearts();
+      } else {
+        // wrong: show broken heart flash briefly then redirect to page9.html
+        WRONG.classList.add('show');
+        setTimeout(()=>{
+          WRONG.classList.remove('show');
+          window.location.href = 'page5.html';
+        }, 700);
+      }
+      return;
+    }
+    // numeric
+    if(/^[0-9]$/.test(v) && entered.length < 4){
+      entered += v;
+      updateDots();
+    }
+  });
+
+  function updateDots(){
+    dots.forEach((d,i)=> d.textContent = entered[i] ? '•' : '' );
+  }
+
+  /* Wrong flash is handled above */
+
+  /* Success flow: spawn many colorful hearts for 2s then keep message overlay until click anywhere -> then go to page5.html */
+  function showMessageAndHearts(){
+    messageOverlay.classList.add('show');
+    const colors = ['#ff4d88','#ff9ab0','#ffd36a','#ff7eb9','#ff65a3','#ff7b6b','#a1e3ff','#b7ffcc'];
+    const interval = setInterval(()=> spawnFloatHeart(colors[Math.floor(Math.random()*colors.length)]), 80);
+    setTimeout(()=> clearInterval(interval), 2000);
+
+    // clicking anywhere on overlay closes and redirects to page5.html
+    messageOverlay.addEventListener('click', closeMessageAndGo, {once:true});
+  }
+
+  function spawnFloatHeart(color){
+    const h = document.createElement('div');
+    h.className = 'float-heart';
+    h.textContent = '♥';
+    h.style.color = color;
+    const startX = Math.random() * (window.innerWidth - 40);
+    const startY = window.innerHeight - 40;
+    h.style.left = startX + 'px';
+    h.style.top = startY + 'px';
+    const dur = 1000 + Math.random()*1000; // 1s - 2s
+    h.style.animationDuration = dur + 'ms';
+    // small horizontal drift using CSS transform end applied by animation - we simulated vertical translation, keep optional drift via left change is complex so simple vertical is fine.
+    document.body.appendChild(h);
+    setTimeout(()=> h.remove(), dur + 50);
+  }
+
+  function closeMessageAndGo(){
+    messageOverlay.classList.remove('show');
+    content.classList.remove('blurred');
+    // go back to page5
+    window.location.href = 'page5.html';
+  }
+
+  /* close PIN overlay when clicking outside card */
+  pinOverlay.addEventListener('click', (e)=>{
+    if(e.target === pinOverlay) pinOverlay.classList.remove('show');
+  });
+
+  /* accessibility: esc closes overlays */
+  document.addEventListener('keydown', (e)=>{
+    if(e.key === 'Escape'){
+      pinOverlay.classList.remove('show');
+      if(messageOverlay.classList.contains('show')) {
+        messageOverlay.classList.remove('show');
+        content.classList.remove('blurred');
+      }
+      // do not interrupt wrongFlash redirect
+    }
+  });
+
+  /* small mobile touch protection */
+  document.body.addEventListener('touchstart', ()=>{}, {passive:true});
+})();
+</script>
+</body>
+</html>

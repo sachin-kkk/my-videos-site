@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>First Page - Heart Burst Curtain Transition</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sacramento&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{height:100%;}
+
+body{
+  height:100vh;
+  width:100%;
+  background:url('https://i.ibb.co/j9rHzCK3/e3bf144a-3e1c-4f15-8672-c4b063cda791.png') no-repeat center center/cover;
+  overflow:hidden;
+  position:relative;
+  font-family:sans-serif;
+}
+
+body::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:linear-gradient(rgba(249,234,234,0.25), rgba(252,211,211,0.25));
+  pointer-events:none;
+}
+
+#corner{
+  position:absolute;
+  top:10px;
+  left:15px;
+  font-family:'Sacramento',cursive;
+  font-size:1.8rem;
+  color:#fff;
+  text-shadow:0 2px 8px rgba(0,0,0,0.45);
+  z-index:5;
+}
+
+#signature{
+  position:absolute;
+  bottom:10px;
+  right:15px;
+  font-family:'Sacramento',cursive;
+  font-size:1.6rem;
+  color:#fff;
+  text-shadow:0 2px 8px rgba(0,0,0,0.45);
+  z-index:5;
+}
+
+.heart{
+  position:absolute;
+  font-size:10px;
+  color:rgba(255,0,100,0.9);
+  animation:float 4s linear infinite;
+  user-select:none;
+  pointer-events:none;
+  transform-origin:center;
+  z-index:3;
+}
+
+@keyframes float{
+  0%{transform:translateY(120%) scale(0.5);opacity:0;}
+  10%{opacity:0.9;}
+  100%{transform:translateY(-160%) scale(1.1);opacity:0;}
+}
+
+.button-container{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  z-index:4;
+}
+
+#clickBtn{
+  position:relative;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:15px 25px;
+  border-radius:22px;
+  background:rgba(255,255,255,0.9);
+  backdrop-filter:blur(6px);
+  box-shadow:0 8px 30px rgba(0,0,0,0.25);
+  font-size:1rem;
+  font-weight:700;
+  color:#b54b4b;
+  cursor:pointer;
+  overflow:hidden;
+  transition:transform 0.18s ease, box-shadow 0.18s ease;
+  z-index:6;
+}
+
+#clickBtn:hover{
+  transform:translateY(-3px) scale(1.03);
+  box-shadow:0 12px 40px rgba(0,0,0,0.35);
+}
+
+#clickBtn:active{transform:scale(0.96);}
+#clickBtn .heart{ top:50%; transform:translateY(0); }
+
+.burst-heart{
+  position:absolute;
+  font-size:22px;
+  animation:burst 1.6s ease forwards;
+  user-select:none;
+  pointer-events:none;
+  z-index:999;
+}
+
+@keyframes burst{
+  0%{transform:scale(0) translate(0,0);opacity:1;}
+  100%{
+    transform:scale(1.6) translate(var(--x),var(--y));
+    opacity:0;
+  }
+}
+
+.curtain{
+  position:fixed;
+  top:0;
+  width:50%;
+  height:100%;
+  background:linear-gradient(to bottom, #ffb6c1, #ffdde1);
+  z-index:2000;
+}
+
+.curtain.left{ left:0; border-right:2px solid rgba(255,255,255,0.6); }
+.curtain.right{ right:0; border-left:2px solid rgba(255,255,255,0.6); }
+
+.open-left{ animation:curtainLeft 1.3s forwards ease-in-out; }
+.open-right{ animation:curtainRight 1.3s forwards ease-in-out; }
+
+@keyframes curtainLeft{
+  0%{transform:translateX(0);}
+  100%{transform:translateX(-100%);}
+}
+
+@keyframes curtainRight{
+  0%{transform:translateX(0);}
+  100%{transform:translateX(100%);}
+}
+</style>
+</head>
+<body>
+  <div id="corner">#delulu♥</div>
+  <div id="signature">your nautanki🐣</div>
+
+  <div class="button-container">
+    <div id="clickBtn">Click Here</div>
+  </div>
+
+<script>
+const btn = document.getElementById('clickBtn');
+
+// floating hearts inside button
+for (let i = 0; i < 10; i++) {
+  const h = document.createElement('div');
+  h.classList.add('heart');
+  h.innerHTML = '❤';
+  h.style.left = (10 + Math.random() * 80) + '%';
+  h.style.animationDelay = (Math.random() * 2) + 's';
+  h.style.fontSize = (8 + Math.random() * 14) + 'px';
+  h.style.animationDuration = (3 + Math.random() * 3) + 's';
+  h.style.bottom = '-6px';
+  btn.appendChild(h);
+}
+
+// colors for burst hearts
+const colors = ["#ff1e73","#ff5f5f","#ff9a76","#ffde59","#ff7eb9","#ff65a3"];
+
+btn.addEventListener('click', () => {
+  // create burst hearts
+  for (let i = 0; i < 45; i++) {
+    const b = document.createElement('div');
+    b.className = 'burst-heart';
+    b.innerHTML = '❤';
+    b.style.left = window.innerWidth / 2 + 'px';
+    b.style.top = window.innerHeight / 2 + 'px';
+    b.style.color = colors[Math.floor(Math.random() * colors.length)];
+    const angle = Math.random() * 2 * Math.PI;
+    const distance = 100 + Math.random() * 200;
+    const x = Math.cos(angle) * distance + "px";
+    const y = Math.sin(angle) * distance + "px";
+    b.style.setProperty('--x', x);
+    b.style.setProperty('--y', y);
+    document.body.appendChild(b);
+    setTimeout(() => b.remove(), 1600);
+  }
+
+  // curtain transition after burst
+  setTimeout(() => {
+    const left = document.createElement('div');
+    const right = document.createElement('div');
+    left.className = "curtain left";
+    right.className = "curtain right";
+    document.body.appendChild(left);
+    document.body.appendChild(right);
+
+    // play curtain animation immediately
+    left.classList.add("open-left");
+    right.classList.add("open-right");
+
+    // redirect AFTER curtain animation completes
+    setTimeout(() => {
+      window.location.href = "page2.html";
+    }, 1300);
+  }, 1600);
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Page 9 — Message</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Sacramento&display=swap');
+  body {
+    margin: 0;
+    padding: 20px;
+    background: linear-gradient(180deg,#ffe0e5,#ffdce0);
+    font-family: system-ui,-apple-system,Segoe UI,Roboto;
+    color: #b54b4b;
+    min-height: 100vh;
+    position: relative;
+    overflow: hidden;
+  }
+  #corner {
+    position: fixed;
+    left: 15px;
+    top: 10px;
+    font-family: 'Sacramento', cursive;
+    font-size: 1.6rem;
+    z-index: 40;
+    color: #b54b4b;
+  }
+  #backBtn {
+    position: fixed;
+    right: 15px;
+    top: 10px;
+    background: #fff;
+    padding: 8px 14px;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    z-index: 40;
+    color: #b54b4b;
+    font-weight: 700;
+    box-shadow:0 6px 18px rgba(0,0,0,0.12);
+  }
+  .message-box {
+    max-width: 900px;
+    margin: 100px auto 50px;
+    text-align: center;
+    font-family: 'Sacramento', cursive;
+    font-size: 2rem;
+  }
+  .choice-box {
+    margin: 30px auto;
+    max-width: 400px;
+    background: #fff0f5;
+    border-radius: 14px;
+    padding: 20px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    font-weight: 700;
+    color: #b54b4b;
+    position: relative;
+  }
+  .choice-btn {
+    padding: 8px 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 700;
+    transition: all 0.3s ease;
+  }
+  /* floating hearts animation */
+  .floating-heart {
+    position: absolute;
+    font-size: 24px;
+    color: red;
+    animation: floatHeart linear forwards;
+    pointer-events: none;
+    z-index: 999;
+  }
+  @keyframes floatHeart {
+    0% {transform: translate(var(--xStart), var(--yStart)) scale(1); opacity:1;}
+    100% {transform: translate(var(--xEnd), var(--yEnd)) scale(0.5); opacity:0;}
+  }
+  /* creator button */
+  #creatorBtn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background:#fff0f5;
+    padding:10px 16px;
+    border-radius:12px;
+    font-weight:700;
+    cursor:pointer;
+    box-shadow:0 6px 18px rgba(0,0,0,0.12);
+    z-index:50;
+  }
+  /* overlay for creator photo */
+  #creatorOverlay {
+    display:none;
+    position: fixed;
+    inset:0;
+    background: rgba(0,0,0,0.85);
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+  #creatorOverlay img {
+    max-width:90vw;
+    max-height:90vh;
+    border-radius:14px;
+    box-shadow:0 8px 20px rgba(0,0,0,0.3);
+  }
+</style>
+</head>
+<body>
+
+<div id="corner">#delulu♥</div>
+<button id="backBtn">Back</button>
+
+<div class="message-box">
+  I miss old uu sooo muchhh 🙃🙂 and also know I can't get uu in this life then also loveeeee uuu sooo muchhhhhh❤️🐣.....
+</div>
+
+<div class="choice-box">
+  <div>You already know this na from starting 🙂</div>
+  <div style="display:flex; gap:12px; margin-left:10px;">
+    <div class="choice-btn" id="noBtn">No😐</div>
+    <div class="choice-btn" id="yesBtn">Yes🙂</div>
+  </div>
+</div>
+
+<!-- Creator button -->
+<div id="creatorBtn">Want to see creator of this?</div>
+
+<!-- Photo overlay -->
+<div id="creatorOverlay">
+  <div>
+    <img src="https://i.ibb.co/bgqQQQ2W/Snapchat-1026893424.jpg" alt="Creator">
+  </div>
+</div>
+
+<script>
+(function(){
+  const backBtn = document.getElementById('backBtn');
+  backBtn.addEventListener('click', ()=>{ window.history.back(); });
+
+  const noBtn = document.getElementById('noBtn');
+  const yesBtn = document.getElementById('yesBtn');
+  let noClickCount = 0;
+
+  noBtn.addEventListener('click', ()=>{
+    noClickCount++;
+    let scale = Math.max(0, 1 - noClickCount * 0.1);
+    noBtn.style.transform = `scale(${scale})`;
+    if(scale <=0){
+      noBtn.style.display='none';
+      yesBtn.style.transform='scale(2)';
+    }
+  });
+
+  yesBtn.addEventListener('click', ()=>{
+    for(let i=0;i<15;i++){ createFloatingHeart(); }
+  });
+
+  function createFloatingHeart(){
+    const heart = document.createElement('div');
+    heart.classList.add('floating-heart');
+    heart.textContent = '💔';
+    const startX = Math.random()*window.innerWidth + 'px';
+    const startY = Math.random()*window.innerHeight + 'px';
+    const endX = (Math.random()*200 -100) + 'px';
+    const endY = (Math.random()*200 -300) + 'px';
+    heart.style.setProperty('--xStart', startX);
+    heart.style.setProperty('--yStart', startY);
+    heart.style.setProperty('--xEnd', `calc(${startX} + ${endX})`);
+    heart.style.setProperty('--yEnd', `calc(${startY} + ${endY})`);
+    heart.style.animationDuration = (2+Math.random()*2)+'s';
+    document.body.appendChild(heart);
+    setTimeout(()=>{ heart.remove(); },4000);
+  }
+
+  // Creator button logic
+  const creatorBtn = document.getElementById('creatorBtn');
+  const creatorOverlay = document.getElementById('creatorOverlay');
+
+  creatorBtn.addEventListener('click', ()=>{
+    creatorOverlay.style.display='flex';
+    for(let i=0;i<20;i++){ createFloatingEmoji(); }
+  });
+
+  creatorOverlay.addEventListener('click',(e)=>{
+    if(e.target===creatorOverlay) creatorOverlay.style.display='none';
+  });
+
+  function createFloatingEmoji(){
+    const emojis = ['😙','🤗','🌷'];
+    const emoji = document.createElement('div');
+    emoji.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+    emoji.style.position='absolute';
+    emoji.style.fontSize='24px';
+    emoji.style.left=Math.random()*window.innerWidth+'px';
+    emoji.style.top=Math.random()*window.innerHeight+'px';
+    emoji.style.zIndex=999;
+    emoji.style.pointerEvents='none';
+    emoji.style.opacity=1;
+    document.body.appendChild(emoji);
+    const deltaX=(Math.random()*200-100);
+    const deltaY=(Math.random()*200-100);
+    const duration=3000+Math.random()*2000;
+    emoji.animate([
+      {transform:`translate(0,0)`,opacity:1},
+      {transform:`translate(${deltaX}px,${deltaY}px)`,opacity:0}
+    ], {duration:duration, easing:'ease-out'});
+    setTimeout(()=>emoji.remove(),duration);
+  }
+
+})();
+</script>
+
+</body>
+</html>

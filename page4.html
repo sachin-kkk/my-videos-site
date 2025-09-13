@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Page 4 — Videos</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Sacramento&display=swap');
+  body {
+    margin: 0;
+    padding: 20px;
+    background: linear-gradient(180deg,#ffe0e5,#ffdce0);
+    font-family: system-ui,-apple-system,Segoe UI,Roboto;
+    color: #b54b4b;
+    min-height: 100vh;
+  }
+  #corner {
+    position: fixed;
+    left: 15px;
+    top: 10px;
+    font-family: 'Sacramento', cursive;
+    font-size: 1.6rem;
+    z-index: 40;
+    color: #b54b4b;
+  }
+  #backBtn {
+    position: fixed;
+    right: 15px;
+    top: 10px;
+    background: #fff;
+    padding: 8px 14px;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    z-index: 40;
+    color: #b54b4b;
+    font-weight: 700;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+    transition: transform 0.6s ease;
+  }
+  .video-box {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+    padding: 15px;
+    margin: 30px auto;
+    max-width: 360px;
+    text-align: center;
+  }
+  iframe {
+    width: 100%;
+    height: 640px; /* shorts ke liye vertical */
+    border-radius: 12px;
+    border: none;
+  }
+  /* Overlay */
+  #msgOverlay {
+    position: fixed;
+    top:0;left:0;right:0;bottom:0;
+    background: rgba(255, 220, 225, 0.95);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.4rem;
+    color: #b54b4b;
+    font-weight: 600;
+    z-index: 999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+  #msgOverlay.show {
+    opacity: 1;
+    pointer-events: all;
+  }
+  .heart {
+    font-size: 2.5rem;
+    margin-top: 10px;
+    display: inline-block;
+    animation: spin 2s linear infinite;
+  }
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+</style>
+</head>
+<body>
+
+<div id="corner">#delulu♥</div>
+<button id="backBtn">Back</button>
+
+<div class="video-box">
+  <iframe src="https://www.youtube.com/embed/qZIinpjaArw?playsinline=1" allow="autoplay; encrypted-media"></iframe>
+</div>
+<div class="video-box">
+  <iframe src="https://www.youtube.com/embed/TUDll6Y9Jw4?playsinline=1" allow="autoplay; encrypted-media"></iframe>
+</div>
+<div class="video-box">
+  <iframe src="https://www.youtube.com/embed/s3VrsprOapY?playsinline=1" allow="autoplay; encrypted-media"></iframe>
+</div>
+<div class="video-box">
+  <iframe src="https://www.youtube.com/embed/eY_tcCHnGz4?playsinline=1" allow="autoplay; encrypted-media"></iframe>
+</div>
+<div class="video-box">
+  <iframe src="https://www.youtube.com/embed/Syr1oiL-m1o?playsinline=1" allow="autoplay; encrypted-media"></iframe>
+</div>
+<div class="video-box">
+  <iframe src="https://www.youtube.com/embed/3Xspzc9qZkg?playsinline=1" allow="autoplay; encrypted-media"></iframe>
+</div>
+<div class="video-box">
+  <iframe src="https://www.youtube.com/embed/EZqH4ZHrUu8?playsinline=1" allow="autoplay; encrypted-media"></iframe>
+</div>
+<div class="video-box">
+  <iframe src="https://www.youtube.com/embed/HAfSaMtxBvg?playsinline=1" allow="autoplay; encrypted-media"></iframe>
+</div>
+<div class="video-box">
+  <iframe src="https://www.youtube.com/embed/SON4deJ68HA?playsinline=1" allow="autoplay; encrypted-media"></iframe>
+</div>
+<div class="video-box">
+  <iframe src="https://www.youtube.com/embed/htV6a8zEYvk?playsinline=1" allow="autoplay; encrypted-media"></iframe>
+</div>
+
+<div id="msgOverlay">
+  <div>Ruko Betuu🥹</div>
+  <div class="heart">♥</div>
+</div>
+
+<script>
+  const backBtn = document.getElementById('backBtn');
+  const overlay = document.getElementById('msgOverlay');
+
+  backBtn.addEventListener('click', ()=>{
+    overlay.classList.add('show');
+    setTimeout(()=>{
+      overlay.classList.remove('show');
+      window.location.href = "page2.html";
+    },2000);
+  });
+</script>
+
+</body>
+</html>

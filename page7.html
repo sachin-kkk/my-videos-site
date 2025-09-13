@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Ahaana — Page7 (Videos)</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Sacramento&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:system-ui,-apple-system,Segoe UI,Roboto;
+    background:linear-gradient(180deg,#ffe0e5,#ffdce0);
+    color:#b54b4b;
+    padding:20px;
+    min-height:100vh;
+  }
+  #corner{position:fixed;left:15px;top:10px;font-family:'Sacramento',cursive;font-size:1.6rem;z-index:40;color:#b54b4b}
+  #backBtn{position:fixed;right:15px;top:10px;background:#fff;padding:8px 14px;border-radius:12px;border:none;cursor:pointer;z-index:40;color:#b54b4b;font-weight:700;box-shadow:0 6px 18px rgba(0,0,0,0.12)}
+  .grid{max-width:980px;margin:70px auto 40px;display:grid;gap:16px;grid-template-columns:repeat(2,1fr);padding:0 12px}
+  @media(max-width:700px){.grid{grid-template-columns:1fr}}
+  .video-card{position:relative;border-radius:14px;overflow:hidden;background:#000;padding-top:56.25%;cursor:pointer}
+  .thumb-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+  .play-overlay{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:3;width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,rgba(255,30,115,0.95),rgba(255,120,160,0.95));box-shadow:0 10px 30px rgba(0,0,0,0.35);color:#fff;font-size:20px}
+  .video-card .meta{position:absolute;left:12px;bottom:12px;background:rgba(255,255,255,0.9);padding:6px 10px;border-radius:12px;font-weight:700;color:#b54b4b;font-size:0.9rem}
+  #overlay{position:fixed;inset:0;background:rgba(0,0,0,0.85);display:none;align-items:center;justify-content:center;padding:20px;z-index:1000}
+  .player-wrap{width:100%;max-width:900px;aspect-ratio:16/9;background:#000;border-radius:12px;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,0.6)}
+  .player-wrap iframe{width:100%;height:100%;border:0;display:block}
+  #popup{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.45);z-index:1100}
+  .popup-box{background:#fff0f5;color:#b54b4b;padding:22px 28px;border-radius:14px;font-weight:700;font-size:1.2rem;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,0.15)}
+  .popup-heart{display:block;margin-top:10px;font-size:24px;color:#ff1e73;animation:rot 1s linear infinite}
+  @keyframes rot{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+
+<div id="corner">#delulu♥</div>
+<button id="backBtn">Back</button>
+
+<main class="grid" id="grid">
+  <div class="video-card" data-url="https://youtube.com/shorts/NQty-tj9T28?feature=share">
+    <img class="thumb-img" src="https://i.ytimg.com/vi/NQty-tj9T28/hqdefault.jpg" alt="thumb">
+    <div class="play-overlay">▶</div>
+    <div class="meta">1</div>
+  </div>
+  <div class="video-card" data-url="https://youtube.com/shorts/bBOgYcwuTlM?feature=share">
+    <img class="thumb-img" src="https://i.ytimg.com/vi/bBOgYcwuTlM/hqdefault.jpg" alt="thumb">
+    <div class="play-overlay">▶</div>
+    <div class="meta">2</div>
+  </div>
+  <div class="video-card" data-url="https://youtube.com/shorts/E3NbVB11rdM?feature=share">
+    <img class="thumb-img" src="https://i.ytimg.com/vi/E3NbVB11rdM/hqdefault.jpg" alt="thumb">
+    <div class="play-overlay">▶</div>
+    <div class="meta">3</div>
+  </div>
+  <div class="video-card" data-url="https://youtube.com/shorts/riuKFfZ79sU?feature=share">
+    <img class="thumb-img" src="https://i.ytimg.com/vi/riuKFfZ79sU/hqdefault.jpg" alt="thumb">
+    <div class="play-overlay">▶</div>
+    <div class="meta">4</div>
+  </div>
+  <div class="video-card" data-url="https://youtube.com/shorts/MnJA1GYTB_A?feature=share">
+    <img class="thumb-img" src="https://i.ytimg.com/vi/MnJA1GYTB_A/hqdefault.jpg" alt="thumb">
+    <div class="play-overlay">▶</div>
+    <div class="meta">5</div>
+  </div>
+  <div class="video-card" data-url="https://youtube.com/shorts/1kyOpLq7yHw?feature=share">
+    <img class="thumb-img" src="https://i.ytimg.com/vi/1kyOpLq7yHw/hqdefault.jpg" alt="thumb">
+    <div class="play-overlay">▶</div>
+    <div class="meta">6</div>
+  </div>
+  <div class="video-card" data-url="https://youtube.com/shorts/oLtk5AHrp5M?feature=share">
+    <img class="thumb-img" src="https://i.ytimg.com/vi/oLtk5AHrp5M/hqdefault.jpg" alt="thumb">
+    <div class="play-overlay">▶</div>
+    <div class="meta">7</div>
+  </div>
+  <div class="video-card" data-url="https://youtube.com/shorts/Weehk6665y8?feature=share">
+    <img class="thumb-img" src="https://i.ytimg.com/vi/Weehk6665y8/hqdefault.jpg" alt="thumb">
+    <div class="play-overlay">▶</div>
+    <div class="meta">8</div>
+  </div>
+  <div class="video-card" data-url="https://youtube.com/shorts/Uz8qhLxno58?feature=share">
+    <img class="thumb-img" src="https://i.ytimg.com/vi/Uz8qhLxno58/hqdefault.jpg" alt="thumb">
+    <div class="play-overlay">▶</div>
+    <div class="meta">9</div>
+  </div>
+  <div class="video-card" data-url="https://youtube.com/shorts/YlYEgibwjJw?feature=share">
+    <img class="thumb-img" src="https://i.ytimg.com/vi/YlYEgibwjJw/hqdefault.jpg" alt="thumb">
+    <div class="play-overlay">▶</div>
+    <div class="meta">10</div>
+  </div>
+</main>
+
+<div id="overlay" aria-hidden="true">
+  <div class="player-wrap" id="playerWrap"></div>
+</div>
+
+<div id="popup" aria-hidden="true">
+  <div class="popup-box">Ruko betuu🥹<span class="popup-heart">❤</span></div>
+</div>
+
+<script>
+(function(){
+  const overlay = document.getElementById('overlay');
+  const playerWrap = document.getElementById('playerWrap');
+
+  function extractYouTubeID(url) {
+    try {
+      let id = null;
+      if (url.includes("shorts/")) {
+        id = url.split("shorts/")[1].split("?")[0];
+      } else if (url.includes("v=")) {
+        id = url.split("v=")[1].split("&")[0];
+      }
+      return id;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function ytEmbedUrl(url){
+    const id = extractYouTubeID(url);
+    if (!id) return null;
+    return 'https://www.youtube.com/embed/' + encodeURIComponent(id) + '?autoplay=1&mute=0&rel=0&modestbranding=1';
+  }
+
+  function openPlayer(url){
+    const embed = ytEmbedUrl(url);
+    if(!embed) return;
+    const ifr = document.createElement('iframe');
+    ifr.src = embed;
+    ifr.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+    ifr.allowFullscreen = true;
+    playerWrap.innerHTML = '';
+    playerWrap.appendChild(ifr);
+    overlay.style.display = 'flex';
+    overlay.setAttribute('aria-hidden','false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closePlayer(){
+    overlay.style.display = 'none';
+    overlay.setAttribute('aria-hidden','true');
+    playerWrap.innerHTML = '';
+    document.body.style.overflow = '';
+  }
+
+  document.querySelectorAll('.video-card').forEach(card=>{
+    card.addEventListener('click', ()=>{
+      const url = card.dataset.url;
+      openPlayer(url);
+    });
+  });
+
+  overlay.addEventListener('click', (e)=>{
+    if(e.target === overlay) closePlayer();
+  });
+
+  const backBtn = document.getElementById('backBtn');
+  const popup = document.getElementById('popup');
+  backBtn.addEventListener('click', ()=>{
+    popup.style.display = 'flex';
+    setTimeout(()=> {
+      popup.style.display = 'none';
+      window.location.href = 'page2.html';
+    }, 2000);
+  });
+
+  document.addEventListener('keydown', (e)=>{
+    if(e.key === 'Escape'){
+      if(overlay.style.display === 'flex') closePlayer();
+    }
+  });
+
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Ahaana — Page2</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Sacramento&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:system-ui,-apple-system,Segoe UI,Roboto;
+    background:linear-gradient(180deg,#ffe0e5,#ffdce0);
+    color:#b54b4b;
+    padding:20px;
+    min-height:100vh;
+  }
+  #corner{position:fixed;left:15px;top:10px;
+    font-family:'Sacramento',cursive;font-size:1.6rem;
+    z-index:40;color:#b54b4b}
+  .grid{max-width:980px;margin:70px auto 40px;display:grid;
+    gap:16px;grid-template-columns:repeat(2,1fr);padding:0 12px}
+  @media(max-width:700px){.grid{grid-template-columns:1fr}}
+  .box{background:#fff;border-radius:14px;padding:30px;
+    text-align:center;font-weight:700;font-size:1.2rem;
+    color:#b54b4b;cursor:pointer;
+    box-shadow:0 6px 18px rgba(0,0,0,0.1);
+    transition:transform .2s}
+  .box:hover{transform:scale(1.05)}
+
+  /* overlay generic */
+  .overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);
+    display:none;align-items:center;justify-content:center;z-index:2000}
+  .overlay-box{background:#fff0f5;padding:20px 25px;border-radius:16px;
+    text-align:center;box-shadow:0 10px 25px rgba(0,0,0,0.25)}
+  .pass-display{font-size:1.5rem;letter-spacing:8px;
+    background:#ffe9ef;padding:8px 12px;border-radius:8px;
+    margin-bottom:15px;min-width:120px;display:inline-block}
+  .keypad{display:grid;grid-template-columns:repeat(3,60px);
+    gap:10px;justify-content:center}
+  .key{background:#ff7fa5;color:#fff;border:none;border-radius:50%;
+    font-size:1.2rem;width:60px;height:60px;cursor:pointer;
+    box-shadow:0 4px 10px rgba(0,0,0,0.2)}
+  .msg{margin-top:12px;color:#ff1e73;font-weight:700;display:none}
+
+  /* heart animation */
+  #heartAnim{
+    position:fixed;top:50%;left:50%;
+    transform:translate(-50%,-50%) scale(0);
+    font-size:4rem;z-index:3000;opacity:0;
+    transition:transform .5s ease, opacity .5s ease;
+  }
+  #heartAnim.show{
+    transform:translate(-50%,-50%) scale(1.2);
+    opacity:1;
+  }
+
+  /* quiz styles */
+  #quizBox h3{margin-bottom:15px}
+  .choices{display:flex;gap:15px;justify-content:center;font-size:2rem}
+  .choice{cursor:pointer;transition:transform .2s}
+  .choice:hover{transform:scale(1.2)}
+  .inputField{margin-top:15px}
+  .inputField input{padding:8px 10px;border-radius:8px;border:1px solid #aaa}
+  .submitBtn{margin-top:10px;padding:8px 14px;border:none;border-radius:8px;background:#ff7fa5;color:#fff;cursor:pointer}
+</style>
+</head>
+<body>
+
+<div id="corner">#delulu♥</div>
+
+<main class="grid">
+  <div class="box" onclick="location.href='page3.html'">Ahaana's Gallery</div>
+  <div class="box" onclick="location.href='page4.html'">Ahaana's Songs</div>
+  <div class="box" onclick="location.href='page5.html'">Ahaana's Cute Snaps</div>
+  <div class="box" onclick="location.href='page6.html'">Ahaana's Recommend Spotify</div>
+  <div class="box" onclick="location.href='page7.html'">Ahaana's Edits</div>
+  <div class="box" id="secretBox">Nautanki fav🙃❤️</div>
+  <div class="box" id="hiddenMsg">Hidden message 🙂🐣</div>
+</main>
+
+<!-- Password Overlay -->
+<div class="overlay" id="passOverlay">
+  <div class="overlay-box">
+    <div class="pass-display" id="passDisplay">____</div>
+    <div class="keypad" id="keypad"></div>
+    <div class="msg" id="msg">Apko password ni yad 🥺💔</div>
+  </div>
+</div>
+
+<!-- Quiz Overlay -->
+<div class="overlay" id="quizOverlay">
+  <div class="overlay-box" id="quizBox">
+    <!-- dynamic questions here -->
+  </div>
+</div>
+
+<!-- Heart animation element -->
+<div id="heartAnim">💔</div>
+
+<script>
+(function(){
+  // heart animation function
+  function heartBreak(){
+    const heart=document.getElementById('heartAnim');
+    heart.classList.add('show');
+    setTimeout(()=>{heart.classList.remove('show');},2000);
+  }
+
+  /* ========== PASSWORD LOGIC ========== */
+  const secretBox=document.getElementById('secretBox');
+  const passOverlay=document.getElementById('passOverlay');
+  const passDisplay=document.getElementById('passDisplay');
+  const keypad=document.getElementById('keypad');
+  const msg=document.getElementById('msg');
+  let input="";
+  const digits=[1,2,3,4,5,6,7,8,9,'←',0,'✓'];
+  digits.forEach(d=>{
+    const btn=document.createElement('button');
+    btn.className='key';btn.textContent=d;
+    keypad.appendChild(btn);
+    btn.addEventListener('click',()=>{
+      if(d==='←'){input=input.slice(0,-1);}
+      else if(d==='✓'){checkPass();}
+      else{if(input.length<4) input+=d;}
+      render();
+    });
+  });
+  function render(){passDisplay.textContent=input.padEnd(4,'_');}
+  function checkPass(){
+    if(input==="1301"){window.location.href="page8.html";}
+    else{
+      msg.style.display="block";heartBreak();
+      setTimeout(()=>{msg.style.display="none";input="";render();},2000);
+    }
+  }
+  secretBox.addEventListener('click',()=>{
+    passOverlay.style.display='flex';input="";render();
+  });
+  passOverlay.addEventListener('click',e=>{
+    if(e.target===passOverlay){passOverlay.style.display='none';}
+  });
+
+  /* ========== QUIZ LOGIC ========== */
+  const hiddenMsg=document.getElementById('hiddenMsg');
+  const quizOverlay=document.getElementById('quizOverlay');
+  const quizBox=document.getElementById('quizBox');
+
+  function showQuizStep(step){
+    quizBox.innerHTML="";
+    if(step===1){
+      quizBox.innerHTML=`<h3>Which one he likes?</h3>
+        <div class="choices">
+          <span class="choice">🩵</span>
+          <span class="choice">🤍</span>
+          <span class="choice">💛</span>
+        </div>`;
+      quizBox.querySelectorAll(".choice").forEach(c=>{
+        c.onclick=()=>{
+          if(c.textContent==="🤍"){showQuizStep(2);}
+          else{quizOverlay.style.display='none';heartBreak();}
+        };
+      });
+    }
+    if(step===2){
+      quizBox.innerHTML=`<h3>Which one he likes?</h3>
+        <div class="choices">
+          <span class="choice">🌹</span>
+          <span class="choice">🪻</span>
+          <span class="choice">🌷</span>
+        </div>`;
+      quizBox.querySelectorAll(".choice").forEach(c=>{
+        c.onclick=()=>{
+          if(c.textContent==="🌷"){showQuizStep(3);}
+          else{quizOverlay.style.display='none';heartBreak();}
+        };
+      });
+    }
+    if(step===3){
+      quizBox.innerHTML=`<h3>His favourite girl nickname 🐣</h3>
+        <div class="inputField"><input type="text" id="nickInput" placeholder="Enter nickname"></div>
+        <button class="submitBtn">Submit</button>`;
+      quizBox.querySelector(".submitBtn").onclick=()=>{
+        let val=document.getElementById("nickInput").value.trim().toLowerCase();
+        if(val==="pari"){window.location.href="page9.html";}
+        else{quizOverlay.style.display='none';heartBreak();}
+      };
+    }
+  }
+
+  hiddenMsg.addEventListener('click',()=>{
+    quizOverlay.style.display='flex';showQuizStep(1);
+  });
+  quizOverlay.addEventListener('click',e=>{
+    if(e.target===quizOverlay){quizOverlay.style.display='none';}
+  });
+
+})();
+</script>
+</body>
+</html>
